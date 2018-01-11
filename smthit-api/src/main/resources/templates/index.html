@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	{{sub "styles"}}
+	<div class="nav">{{sub "nav"}}</div>
+	<div>
+		{{#navs}} <a href="{{url}}">{{name}}</a> {{/navs}}
+	</div>
+	<div class="nav">
+		<div>发送测试协议</div>
+		<form action="" method="post">
+			<textarea name="content" class="input_protocol"></textarea>
+		</form>
+		<div>
+			<a href="#">提交</a>
+		</div>
+	</div>
+	<!-- 
+	<div class="container_protocol">
+		<table>
+			<tr>
+				<td class="title">Protocol:"", Date:"", Size:""</td>
+			</tr>
+			<tr class="row">
+				<td>Request:</td>
+			</tr>
+			<tr>
+				<td>Response:</td>
+			</tr>
+		</table>
+	</div>
+	 -->
+</body>
+</html>

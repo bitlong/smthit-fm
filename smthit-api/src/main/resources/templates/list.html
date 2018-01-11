@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	{{sub "styles"}}
+	<div class="nav">{{sub "nav"}}</div>
+	<div>
+		{{#navs}} <a href="{{url}}">{{name}}</a> {{/navs}}
+	</div>
+
+	{{protocol-list protocols}}
+</body>
+</html>

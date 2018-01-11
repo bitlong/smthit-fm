@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	{{sub "styles"}}
+	<div class="nav">
+		<div>Login to Api Management by User's Account</div>
+		<form id="loginForm" action="?action=login" method="post">
+			<table class="center" style="width: 200px;">
+				<tr>
+					<td>Mobile:</td>
+					<td><input name="mobile" type="text" style="width:200px;height:25px;" /></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input name="password" type="text"  style="width:200px;height:25px;"/></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<a id="btnLogin" href="javascript:void(0);">Login</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<script type="text/javascript">
+		$("#btnLogin").click(function() {
+			$("#loginForm").submit();
+		});
+	</script>
+</body>
+</html>
