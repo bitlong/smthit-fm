@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.smthit.framework.dal.data.ResponseData;
+import com.smthit.lang.data.ResponseData;
 
 /**
  * @author Bean

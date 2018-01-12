@@ -52,16 +52,25 @@
 	</modules>
 	<distributionManagement>
 		<snapshotRepository>
-			<id>maven-intradak--snapshot</id>
-			<name>maven-intradak--snapshot</name>
-			<url>http://svn.intradak.cn:8081/nexus/content/repositories/snapshots/</url>
+			<id>maven-bell-snapshot</id>
+			<name>maven-bell-snapshot</name>
+			<url>http://iss.makcoo.com:8081/repository/bell-snapshot/</url>
 			<uniqueVersion>true</uniqueVersion>
 		</snapshotRepository>
 		<repository>
-			<id>maven-intradak-release</id>
-			<name>maven-intradak-release</name>
-			<url>http://svn.intradak.cn:8081/nexus/content/repositories/releases/</url>
+			<id>maven-bell-release</id>
+			<name>maven-bell-release</name>
+			<url>http://iss.makcoo.com:8081/repository/bell/</url>
 		</repository>
 	</distributionManagement>
-
+	<repositories>
+		<repository>
+			<id>maven-bell-snapshot</id>
+			<url>http://iss.makcoo.com:8081/repository/bell-snapshot/</url>
+		</repository>
+		<repository>
+			<id>maven-repo1</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+	</repositories>
 </project>

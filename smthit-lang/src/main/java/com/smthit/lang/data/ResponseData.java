@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smthit.framework.dal.data;
+package com.smthit.lang.data;
 
 import java.util.List;
 import java.util.Map;

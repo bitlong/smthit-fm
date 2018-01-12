@@ -12,13 +12,12 @@ import java.util.Map;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.TCJpaRepository;
 
-import cn.ticai.commons.lang.exception.ObjectNotFoundException;
-import cn.ticai.commons.lang.utils.BeanUtil;
-
 import com.smthit.framework.dal.criteria.Criteria;
 import com.smthit.framework.dal.criteria.EntityModel;
 import com.smthit.framework.dal.criteria.Restriction;
 import com.smthit.framework.dal.data.Pagination;
+import com.smthit.lang.exception.ObjectNotFoundException;
+import com.smthit.lang.utils.BeanUtil;
 
 /**
  * @author Bean

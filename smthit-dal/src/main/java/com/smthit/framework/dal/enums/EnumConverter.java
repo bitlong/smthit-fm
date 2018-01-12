@@ -5,7 +5,7 @@ package com.smthit.framework.dal.enums;
 
 import javax.persistence.AttributeConverter;
 
-import cn.ticai.commons.lang.utils.EnumStatus;
+import com.smthit.lang.utils.EnumStatus;
 
 /**
  * @author Bean
