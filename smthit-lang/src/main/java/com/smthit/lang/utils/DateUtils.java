@@ -1,5 +1,6 @@
 package com.smthit.lang.utils;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +60,14 @@ public class DateUtils {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.add(Calendar.DATE, Day);
+		return cal.getTime();
+	}
+	
+	
+	public static Date getBeforeMonth(Date date, int month) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, month);
 		return cal.getTime();
 	}
 	
@@ -444,6 +453,29 @@ public class DateUtils {
 
         return getDayBegin(calendar.getTime());  
     }
+	
+	/**
+	 * 获取所在年的第一天
+	 * @param date
+	 * @return
+	 */
+	public static Date getYearFirstDayBegin(Date date) {
+		Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_YEAR, 1);
+        
+        return getDayBegin(calendar.getTime());
+	}
+	
+	public static Date getYearLastDayEnd(Date date) {
+		Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR, 1);
+        calendar.set(Calendar.DAY_OF_YEAR, 1);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        
+        return getDayEnd(calendar.getTime());
+	}
 	
 	/**
 	 * 获得所在月的最后一天的结束时间
