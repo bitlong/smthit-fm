@@ -5,6 +5,8 @@ package com.smthit.framework.mvc.controller;
 
 import java.util.Locale;
 
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,8 @@ import com.smthit.lang.exception.ServiceException;
  *
  */
 public class AbstractController {
+	@Autowired
+	protected Validator validator;
 	
 	@Autowired
 	protected MessageSource messageResource;

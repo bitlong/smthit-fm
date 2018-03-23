@@ -90,5 +90,15 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.20</version>
 		</dependency>
+		<dependency>
+			<groupId>com.baidu.unbiz</groupId>
+			<artifactId>fluent-validator</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.baidu.unbiz</groupId>
+			<artifactId>fluent-validator-jsr303</artifactId>
+			<version>1.0.5</version>
+		</dependency>
 	</dependencies>
 </project>

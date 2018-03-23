@@ -6,13 +6,25 @@ package com.smthit.lang.data;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Data;
+
 /**
  * @author Bean
  *
  */
+@Data
+@lombok.experimental.Accessors(chain = true)
 public class ResponseData {
 	public static final int SUCCESS = 200;
 	public static final int DEFAULT_ERROR = 500;
+	
+	public static ResponseData newSuccess() {
+		ResponseData rd = new ResponseData(true, null);
+		rd.setStatus(SUCCESS);
+		rd.setMessage("Success");
+		
+		return rd;
+	}
 	
 	public static ResponseData newSuccess(String message) {
 		ResponseData rd = new ResponseData(true, null);
@@ -32,6 +44,14 @@ public class ResponseData {
 		rd.setStatus(SUCCESS);
 		rd.setMessage(message);
 		
+		return rd;
+	}
+	
+	public static ResponseData newFailed() {
+		ResponseData rd = new ResponseData(false, null);
+		rd.message = "Failed";
+		rd.data = "Failed";
+		rd.setStatus(DEFAULT_ERROR);
 		return rd;
 	}
 	
@@ -67,45 +87,4 @@ public class ResponseData {
 		this.success = success;
 		this.data = data;
 	}
-	
-	public boolean isSuccess() {
-		return success;
-	}
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-	public Object getData() {
-		return data;
-	}
-	public void setData(Object data) {
-		this.data = data;
-	}
-	public List<String> getErrors() {
-		return errors;
-	}
-	public void setErrors(List<String> errors) {
-		this.errors = errors;
-	}
-	public Map<String, String> getFieldErrors() {
-		return fieldErrors;
-	}
-	public void setFieldErrors(Map<String, String> fieldErrors) {
-		this.fieldErrors = fieldErrors;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}	
 }

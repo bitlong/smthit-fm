@@ -9,7 +9,7 @@ import static com.smthit.framework.dal.bettlsql.SqlKit.$;
  * @author Bean
  *
  */
-public interface $Sql {
+public interface ActiveRecord {
 
 	
     default boolean save() {
