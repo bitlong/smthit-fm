@@ -1,0 +1,28 @@
+package ${package};
+
+${imports}
+
+ /**
+  *  ${comment}
+  *  gen by smthit ${date(),"yyyy-MM-dd"}
+  */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@lombok.experimental.Accessors(chain = true)
+@Table(name = "${table}")
+public class ${className}${!isEmpty(ext)?" extends" + ext} implements ActiveRecord {
+	
+	<%for(attr in attrs){
+			if(!isEmpty(attr.comment)){%>
+	//${attr.comment}
+	<%		}%>
+	@Column(name = "${attr.colName}")
+	private ${attr.type} ${attr.name};
+	
+	<%}%>
+	public interface Dao extends BaseMapper <${className}> {
+    		Dao $ = mapper(Dao.class);
+    }
+	
+}
