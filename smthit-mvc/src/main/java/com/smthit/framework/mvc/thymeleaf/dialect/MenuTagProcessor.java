@@ -29,7 +29,7 @@ import com.smthit.lang.exception.ServiceException;
 
 /**
  * @author Bean
- *
+ * 菜单标签
  */
 public class MenuTagProcessor extends AbstractElementTagProcessor {
 	private static final String TAG_NAME = "menu";
@@ -54,9 +54,11 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 		//ApplicationContext ac = SpringContextUtils.getApplicationContext(context);
 		
 		List<Menu> menus = MenuLoader.loadMainMenus();
-
+		//菜单类型
 		String type = tag.getAttributeValue("type");
+		//当前所在模块
 		String module = tag.getAttributeValue("module");
+		
 		IStandardExpression expression = parser.parseExpression(context, module);
 		module = (String)expression.execute(context);
 		
@@ -72,7 +74,7 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 	}
 
 	/**
-	 * 
+	 * 创建一级菜单
 	 * @param context
 	 * @param tag
 	 * @param structureHandler
@@ -87,7 +89,8 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 		String module = tag.getAttributeValue("module");
 		IStandardExpression expression = parser.parseExpression(context, module);
 		module = (String) expression.execute(context);
-
+		
+		//根据样式风格动态生成一级菜单
 		final String elementCompleteName = "ul";
 
 		Map<String, String> attributes = new HashMap<String, String>();
@@ -106,12 +109,13 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 			IModel ulModel = modelFactory.createModel();
 			Map<String, String> liAttr = new HashMap<String, String>();
 
-			if (menu.getKey() == null) {
+			if (StringUtils.isEmpty(menu.getKey())) {
 				throw new ServiceException("Menu must has a key.");
 			}
 
 			String[] keyPath = menu.getKey().split("\\.");
-
+			
+			//当前菜单项是否选中
 			if (module != null && keyPath.length > 0 && module.startsWith(keyPath[0])) {
 				liAttr.put("class", "layui-nav-item layui-this");
 			} else {
@@ -121,7 +125,8 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 			IStandaloneElementTag liTag = modelFactory.createStandaloneElementTag("li", liAttr, null, false, false);
 
 			ulModel.add(liTag);
-
+			
+			//计算菜单实际的URL地址
 			String url = "@{" + menu.getUrl() + "}";
 			expression = parser.parseExpression(context, url);
 			String newUrl = (String) expression.execute(context);
@@ -144,6 +149,13 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 		structureHandler.replaceWith(model, false);
 	}
 	
+	/**
+	 * 创建二级菜单
+	 * @param context
+	 * @param tag
+	 * @param structureHandler
+	 * @param subMenus
+	 */
 	private void createSubMenu(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler, List<Menu> subMenus) {
 		final IModelFactory modelFactory = context.getModelFactory();
 		final IModel model = modelFactory.createModel();
@@ -177,15 +189,17 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 			IStandaloneElementTag aTag = modelFactory.createStandaloneElementTag("a", "href", "javascript:;", false, false);
 			model.add(aTag);
 			
+			//菜单图标
 			IStandaloneElementTag iTag = modelFactory.createStandaloneElementTag("i", "class", menu.getCls(), false, false);
 			model.add(iTag);
 			model.add(modelFactory.createCloseElementTag("i"));
-			
+			//菜单名
 			IStandaloneElementTag citeTag = modelFactory.createStandaloneElementTag("cite");
 			model.add(citeTag);
 			model.add(modelFactory.createText(menu.getName()));
 			model.add(modelFactory.createCloseElementTag("cite"));
 			
+			//close a
 			model.add(modelFactory.createCloseElementTag("a"));
 			
 			//如果有下一级继续创建
@@ -228,8 +242,6 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 					model.add(modelFactory.createCloseElementTag("cite"));
 					
 					model.add(modelFactory.createCloseElementTag("a"));
-
-					
 					
 					model.add(modelFactory.createCloseElementTag("dd"));
 				}
@@ -245,8 +257,6 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 		model.add(modelFactory.createCloseElementTag(elementCompleteName));
 		
 		structureHandler.replaceWith(model, false);
-		
-	
 	}
 	
 	private boolean hasMenuPermission(Menu menu) {
