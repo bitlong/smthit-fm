@@ -3,14 +3,35 @@
  */
 package com.smthit.lang.data;
 
+import lombok.Data;
+
 /**
  * @author Bean Layui分页返回数据的默认格式
  */
+@Data
+@lombok.experimental.Accessors(chain = true)
 public class PageData {
 	private int code;
 	private String msg;
 	private long count;
 	private Object data;
+
+	public static PageData newFailed() {
+		PageData pageData = new PageData();
+		pageData.setCode(500);
+		pageData.setMsg("Failed");
+		
+		return pageData;
+	}
+	
+	public static PageData newSuccess() {
+		PageData pageData = new PageData();
+		
+		pageData.setCode(0);
+		pageData.setMsg("Success");
+		
+		return pageData;
+	}
 	
 	public PageData() {
 	}
@@ -21,65 +42,4 @@ public class PageData {
 		this.count = count;
 		this.data = data;
 	}
-	
-	/**
-	 * @return the code
-	 */
-	public int getCode() {
-		return code;
-	}
-
-	/**
-	 * @param code
-	 *            the code to set
-	 */
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	/**
-	 * @return the msg
-	 */
-	public String getMsg() {
-		return msg;
-	}
-
-	/**
-	 * @param msg
-	 *            the msg to set
-	 */
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	/**
-	 * @return the count
-	 */
-	public long getCount() {
-		return count;
-	}
-
-	/**
-	 * @param count
-	 *            the count to set
-	 */
-	public void setCount(long count) {
-		this.count = count;
-	}
-
-	/**
-	 * @return the data
-	 */
-	public Object getData() {
-		return data;
-	}
-
-	/**
-	 * @param data
-	 *            the data to set
-	 */
-	public void setData(Object data) {
-		this.data = data;
-	}
-
 }

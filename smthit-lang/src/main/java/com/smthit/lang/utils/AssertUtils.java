@@ -73,4 +73,10 @@ public class AssertUtils {
 			throw new ServiceException(StringUtils.isEmpty(tips) ? "两个值不相等" : tips);
 		}
 	}
+	
+	public static void assertScope(Number start, Number end, Number value, String tips) {
+		if(value == null || value.longValue() < start.longValue() || value.longValue() > end.longValue()) {
+			throw new ServiceException(StringUtils.isEmpty(tips) ? "数值不再范围内" : tips);
+		}
+	}
 }
