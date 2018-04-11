@@ -112,9 +112,10 @@ public class BeanUtil {
 				if (attributeField == null) {
 					throw new NoSuchFieldException(String.format("%s can not found.", attribute));
 				}
+				//attributeField.getType() == Boolean.class
 
 				/** 如果类型为boolean **/
-				if (attributeField.getType() == boolean.class || attributeField.getType() == Boolean.class) {
+				if (attributeField.getType() == boolean.class) {
 					sb.append("is");
 				} else {
 					sb.append("get");

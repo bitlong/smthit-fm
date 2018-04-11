@@ -13,7 +13,7 @@ import java.util.List;
  */
 public final class EnumStatusUtils {
 	
-	public static EnumStatus getStatusByValue(Class<?> enums, int value) {
+	public static EnumStatus getStatusByValue(Class<?> enums, Integer value) {
 		if(enums.isEnum()) {
 			Object[] statuses = enums.getEnumConstants();
 			for(int i = 0; i < statuses.length; i++) {
