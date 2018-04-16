@@ -96,10 +96,10 @@ public interface EntityManager<T extends ActiveRecord> {
 		return create(params, new String[0]);
 	}
 
-	default public <VO> Pagination<VO> pageVO(PageParam qc, AbstractConvert<T, VO> reformer) {
-		PageQuery<T> pageQuery = new PageQuery<T>(qc.getPageNumber(), qc.getPageSize(), qc.getParams());
+	default public <VO> Pagination<VO> pageVO(PageParam pageParam, AbstractConvert<T, VO> reformer) {
+		PageQuery<T> pageQuery = new PageQuery<T>(pageParam.getPageNumber(), pageParam.getPageSize(), pageParam.getParams());
 		
-		pageQuery.setTotalRow($().templateCount(entityCls(), qc.getParams()));
+		pageQuery.setTotalRow($().templateCount(entityCls(), pageParam.getParams()));
 				
 		long start = ($().isOffsetStartZero() ? 0 : 1) + (pageQuery.getPageNumber() - 1) * pageQuery.getPageSize();
 		long size = pageQuery.getPageSize();
@@ -116,6 +116,11 @@ public interface EntityManager<T extends ActiveRecord> {
 		
 		List<T> result = $().template(entityCls(), qc.getParams(), start, size);
 		
+		return reformer.toVOs(result);
+	}
+	
+	default public <VO> List<VO> allVO(T qc, AbstractConvert<T, VO> reformer) {
+		List<T> result = $().template(qc);
 		return reformer.toVOs(result);
 	}
 	

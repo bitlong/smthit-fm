@@ -27,6 +27,5 @@ public abstract class AbstractConvert<PO, VO> implements IConvert<PO, VO> {
 		
 		return result;
 
-	}
-
+	}	
 }
