@@ -37,7 +37,6 @@ public class DefaultCredentialMatcher implements CredentialsMatcher {
 			}
 			
 		}
-		//System.out.println(token.toString());
 		
 		return false;
 	}
