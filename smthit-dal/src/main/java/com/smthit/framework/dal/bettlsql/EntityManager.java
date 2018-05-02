@@ -115,10 +115,26 @@ public interface EntityManager<T extends ActiveRecord> {
 		long size = qc.getPageSize();
 		
 		List<T> result = $().template(entityCls(), qc.getParams(), start, size);
-		
+		 
 		return reformer.toVOs(result);
 	}
 	
+	default public <VO> Pagination<VO> pageVO(String sqlId, PageParam pageParam, AbstractConvert<T, VO> reformer) {
+		PageQuery<T> pageQuery = new PageQuery<T>(pageParam.getPageNumber(), 
+				pageParam.getPageSize(), 
+				pageParam.getParams());
+		
+		$().pageQuery(sqlId, entityCls(), pageQuery);
+		
+		return PaginationUtils.convertPagination(pageQuery, reformer);
+	}
+	
+	/**
+	 * 返回所有复核条件的对象
+	 * @param qc
+	 * @param reformer
+	 * @return
+	 */
 	default public <VO> List<VO> allVO(T qc, AbstractConvert<T, VO> reformer) {
 		List<T> result = $().template(qc);
 		return reformer.toVOs(result);
