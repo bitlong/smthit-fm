@@ -58,7 +58,7 @@ public class MenuTagProcessor extends AbstractElementTagProcessor {
 		String type = tag.getAttributeValue("type");
 		//当前所在模块
 		String module = tag.getAttributeValue("module");
-		
+
 		IStandardExpression expression = parser.parseExpression(context, module);
 		module = (String)expression.execute(context);
 		

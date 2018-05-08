@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.beetl.sql.core.engine.PageQuery;
 import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.smthit.framework.dal.data.PageParam;
 import com.smthit.framework.dal.data.Pagination;
@@ -27,6 +28,7 @@ import com.smthit.lang.utils.BeanUtil;
  */
 public interface EntityManager<T extends ActiveRecord> {
 
+	@Transactional
 	default public T update(Serializable id, Map<String, Object> params, String[] ignoreProperties) {
 		try {
 			T entity = $().single(entityCls(), id);
@@ -43,6 +45,7 @@ public interface EntityManager<T extends ActiveRecord> {
 
 	}
 	
+	@Transactional
 	default public T update(Serializable id, Map<String, Object> params) {
 		return update(id, params, new String[0]);
 	}
@@ -58,10 +61,12 @@ public interface EntityManager<T extends ActiveRecord> {
 		}
 	}
 	
+	@Transactional
 	default public T create(Map<String, Object> params) {
 		return create(params, new String[0]);
 	}
 
+	@Transactional
 	default public T update(Serializable id, Object params, String[] ignoreProperties) {
 		try {
 			T entity = $().single(entityCls(), id);
@@ -77,10 +82,12 @@ public interface EntityManager<T extends ActiveRecord> {
 		}
 	}
 
+	@Transactional
 	default public T update(Serializable id, Object params) {
-		return update(id, params, new String[0]);
+		return update(id, params, new String[] {"id"});
 	}
 	
+	@Transactional
 	default public T create(Object params, String[] ignoreProperties) {
 		try {
 			T entity = entityCls().newInstance();
@@ -92,10 +99,12 @@ public interface EntityManager<T extends ActiveRecord> {
 		}
 	}
 	
+	@Transactional
 	default public T create(Object params) {
 		return create(params, new String[0]);
 	}
 
+	@Transactional
 	default public <VO> Pagination<VO> pageVO(PageParam pageParam, AbstractConvert<T, VO> reformer) {
 		PageQuery<T> pageQuery = new PageQuery<T>(pageParam.getPageNumber(), pageParam.getPageSize(), pageParam.getParams());
 		
@@ -110,6 +119,7 @@ public interface EntityManager<T extends ActiveRecord> {
 		return PaginationUtils.convertPagination(pageQuery, reformer);
 	}
 
+	@Transactional
 	default public <VO> List<VO> listVO(PageParam qc, AbstractConvert<T, VO> reformer) {
 		long start = ($().isOffsetStartZero() ? 0 : 1) + (qc.getPageNumber() - 1) * qc.getPageSize();
 		long size = qc.getPageSize();
@@ -119,6 +129,7 @@ public interface EntityManager<T extends ActiveRecord> {
 		return reformer.toVOs(result);
 	}
 	
+	@Transactional
 	default public <VO> Pagination<VO> pageVO(String sqlId, PageParam pageParam, AbstractConvert<T, VO> reformer) {
 		PageQuery<T> pageQuery = new PageQuery<T>(pageParam.getPageNumber(), 
 				pageParam.getPageSize(), 
