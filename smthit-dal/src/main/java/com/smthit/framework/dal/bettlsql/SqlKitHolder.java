@@ -7,6 +7,7 @@ import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationContextException;
 
 /**
  * @author Bean
@@ -14,20 +15,22 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class SqlKitHolder implements ApplicationContextAware {
 
-	/**
-	 * 
-	 */
 	public SqlKitHolder() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		SQLManager sqlManager = applicationContext.getBean(SQLManager.class);
+		SQLManager sqlManager = (SQLManager)applicationContext.getBean("sqlManagerFactoryBean");
+	
 		if(sqlManager == null) {
 			throw new NullPointerException("Can't not find SQLManager of BeetlSQL");
 		}
-		SqlKit.$(sqlManager);
+		
+		try {
+			SqlKit.$(sqlManager);
+		} catch (Exception e) {
+			throw new ApplicationContextException("Can't not find SQLManager of BeetlSQL");
+		}
 	}
 
 }
