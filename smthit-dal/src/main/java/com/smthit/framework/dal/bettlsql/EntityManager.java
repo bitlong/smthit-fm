@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.engine.PageQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -170,5 +171,9 @@ public interface EntityManager<T extends ActiveRecord> {
 		}
 		
 		throw new ServiceException("Can not find Entity Class by GenericType！");
+	}
+	
+	default public SQLManager getSQLManager() {
+		return $();
 	}
 }

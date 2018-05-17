@@ -35,7 +35,7 @@ public class MenuLoader {
 		    Type type = new TypeToken<ArrayList<Menu>>() {}.getType();  
 
 			@Cleanup InputStream is = MenuLoader.class.getResourceAsStream(menuConfig);
-			menus = gson.fromJson(new InputStreamReader(is), type);
+			menus = gson.fromJson(new InputStreamReader(is, "UTF-8"), type);
 		} catch (Exception e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
