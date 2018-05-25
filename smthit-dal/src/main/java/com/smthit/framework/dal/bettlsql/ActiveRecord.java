@@ -11,19 +11,19 @@ import static com.smthit.framework.dal.bettlsql.SqlKit.$;
  */
 public interface ActiveRecord {
 
-	default void updateStamp() {
-		//do nothing;
-	}
+	default void updateStamp() {}
+	
+	default void createStamp() {}
 	
     default boolean save() {
     		//
-    		updateStamp();
+    		createStamp();
         return $().insertTemplate(this) > 0;
     }
 
     default boolean saveDo() {
     		//
-    		updateStamp();	
+    		createStamp();	
         return $().insertTemplate(this, true) > 0;
     }
 
