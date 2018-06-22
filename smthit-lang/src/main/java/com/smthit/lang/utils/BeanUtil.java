@@ -158,15 +158,15 @@ public class BeanUtil {
 				value = methods.invoke(obj);
 			}
 		} catch (SecurityException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return value;
 	}
