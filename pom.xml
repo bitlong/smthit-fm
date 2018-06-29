@@ -49,6 +49,7 @@
 		<module>smthit-bootstrap</module>
 		<module>smthit-lang</module>
 		<module>smthit-all</module>
+		<module>smthit-dal-ibeetlsql</module>
 	</modules>
 	<distributionManagement>
 		<snapshotRepository>
