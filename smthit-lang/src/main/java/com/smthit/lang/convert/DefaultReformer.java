@@ -10,17 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Bean
- *
+ * @see DefaultReformer2
  */
+@Deprecated
 @Slf4j
 public class DefaultReformer<PO, VO> extends AbstractConvert<PO, VO> {
-
-	/**
-	 * 
-	 */
 	public DefaultReformer() {
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public VO toVO(PO po) {
@@ -38,5 +35,4 @@ public class DefaultReformer<PO, VO> extends AbstractConvert<PO, VO> {
 			throw new ServiceException("从PO转换VO失败, VO class path = " + voClsName + " :" + exp.getMessage());
 		}
 	}
-
 }

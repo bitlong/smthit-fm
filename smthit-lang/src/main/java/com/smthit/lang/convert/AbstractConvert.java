@@ -12,12 +12,12 @@ import java.util.List;
  */
 public abstract class AbstractConvert<PO, VO> implements IConvert<PO, VO> {
 
-	/**
-	 * 
-	 */
 	public AbstractConvert() {
 	}
 
+	/**
+	 * 将一组PO对象转换成VO对象
+	 */
 	@Override
 	public List<VO> toVOs(List<PO> pos) {
 		List<VO> result = new ArrayList<VO>();
@@ -28,4 +28,33 @@ public abstract class AbstractConvert<PO, VO> implements IConvert<PO, VO> {
 		return result;
 
 	}	
+	
+	/**
+	 * 将一组PO对象转换成VO对象，同时调用后处理器postHandler进行扩展变化
+	 */
+	@Override
+	public List<VO> toVOs(List<PO> pos, IConvertPostHandler<PO, VO> postHandler) {
+		List<VO> result = new ArrayList<VO>();
+		for(PO p : pos) {
+			VO v = toVO(p);
+			if(postHandler != null)
+				postHandler.post(p, v);
+			result.add(v);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 将单个PO对象转换成VO对象，同时调用后处理器postHandler进行扩展变化
+	 */
+	@Override
+	public VO toVO(PO po, IConvertPostHandler<PO, VO> postHandler) {
+		VO vo = toVO(po);
+		
+		if(postHandler != null)
+			postHandler.post(po, vo);
+		
+		return vo;
+	}
 }
