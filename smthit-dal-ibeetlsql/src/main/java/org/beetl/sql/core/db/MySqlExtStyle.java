@@ -54,14 +54,14 @@ public class MySqlExtStyle extends MySqlStyle {
             		if(stringTemplate == null) {
             			condition = condition + appendWhere(cls, table, col, attr);
             		} else {
-            			condition = condition + appendAnnotationLikeWhere(stringTemplate, col);
-            		}	
+            			condition = condition + appendAnnotationLikeWhere(stringTemplate, col, attr);
+            		}
             }
         }
         return condition;
     }
 	
-    protected String appendAnnotationLikeWhere(StringTemplate t, String col) {
+    protected String appendAnnotationLikeWhere(StringTemplate t, String col, String fieldName) {
         String accept = t.accept();
         String comp = t.compare();
 
@@ -71,7 +71,11 @@ public class MySqlExtStyle extends MySqlStyle {
         String sql = STATEMENT_START + "if(!isEmpty(" + prefix + accept + ")){"
                 + STATEMENT_END + connector + col + " " + comp + " " + this.HOLDER_START + accept + HOLDER_END + lineSeparator + STATEMENT_START + "}" + STATEMENT_END;
 
+        //如果没有模糊查询条件，添加精准查询
+        sql += STATEMENT_START + "if(!isEmpty(" + prefix + fieldName + ") && isEmpty(" + prefix + accept + ")){"
+                + STATEMENT_END + connector + this.getKeyWordHandler().getCol(col) + "=" + HOLDER_START + prefix + fieldName
+                + HOLDER_END + lineSeparator + STATEMENT_START + "}" + STATEMENT_END;
+        
         return sql;
-
     }
 }
