@@ -64,7 +64,7 @@ public class MapUtils {
 	private static void remove(Object obj,Iterator<?> iterator){
 		if(obj instanceof String){
 			String str = (String)obj;
-			if(StringUtils.isNotBlank(str)){
+			if(StringUtils.isBlank(str)){
 				iterator.remove();
 			}
 		}else if(obj instanceof Collection){
