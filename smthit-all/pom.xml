@@ -14,11 +14,6 @@
   	</dependency>
   	<dependency>
   		<groupId>com.smthit</groupId>
-  		<artifactId>smthit-api-framework</artifactId>
-  		<version>${project.parent.version}</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.smthit</groupId>
   		<artifactId>smthit-biz</artifactId>
   		<version>${project.parent.version}</version>
   	</dependency>
@@ -60,7 +55,6 @@
                             <promoteTransitiveDependencies>true</promoteTransitiveDependencies>  
                             <artifactSet>  
                                 <includes>  
-                                    <include>com.smthit:smthit-api-framework</include>  
                                     <include>com.smthit:smthit-api</include>  
                                     <include>com.smthit:smthit-biz</include>  
                                     <include>com.smthit:smthit-bootstrap</include>
