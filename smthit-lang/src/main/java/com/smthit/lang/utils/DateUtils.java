@@ -1,6 +1,5 @@
 package com.smthit.lang.utils;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +19,8 @@ public class DateUtils {
 	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String yyyyMMddHHmmss = "yyyyMMddHHmmss";
 	public static final String yyyyMMdd = "yyyyMMdd";
+	public static final String HHmm = "HH:mm";
+	public static final String MMdd = "MM-dd";
 	public static final String defaultPattern = "yyyy-MM-dd HH:mm:ss";
 	
 	public static Date pareseDate(Object value, String pattern, Date defaultValue) {
@@ -62,7 +63,6 @@ public class DateUtils {
 		cal.add(Calendar.DATE, Day);
 		return cal.getTime();
 	}
-	
 	
 	public static Date getBeforeMonth(Date date, int month) {
 		Calendar cal = Calendar.getInstance();
@@ -118,6 +118,11 @@ public class DateUtils {
 		return cal.getTime();
 	}
 	
+	/**
+	 * 将data转为String
+	 * @param date
+	 * @return
+	 */
 	public static String format(Date date) {
 		return new SimpleDateFormat(defaultPattern).format(date);
 	}
@@ -126,6 +131,12 @@ public class DateUtils {
 	}
 	public static String formatToyyyyMMdd(Date date) {
 		return new SimpleDateFormat(yyyyMMdd).format(date);
+	}
+	public static String formatToMMdd(Date date) {
+		return new SimpleDateFormat(MMdd).format(date);
+	}
+	public static String formatToHHmm(Date date) {
+		return new SimpleDateFormat(HHmm).format(date);
 	}
 	
 	public static Date getDayBegin(Date date){
