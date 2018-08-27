@@ -139,6 +139,10 @@ public class DateUtils {
 		return new SimpleDateFormat(HHmm).format(date);
 	}
 	
+	public static String formatTo(Date date, String pattern) {
+		return new SimpleDateFormat(pattern).format(date);
+	}
+	
 	public static Date getDayBegin(Date date){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
