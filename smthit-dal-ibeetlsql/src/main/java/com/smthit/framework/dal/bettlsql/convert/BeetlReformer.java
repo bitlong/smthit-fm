@@ -12,9 +12,9 @@ import com.smthit.lang.convert.ExtBean;
  * @author Bean
  *
  */
-public class BettlReformer<PO, VO> extends DefaultReformer2<PO, VO> {
+public class BeetlReformer<PO, VO> extends DefaultReformer2<PO, VO> {
 
-	public BettlReformer(Class<VO> cls) {
+	public BeetlReformer(Class<VO> cls) {
 		super(cls);
 	}
 
