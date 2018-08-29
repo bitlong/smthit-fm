@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DefaultReformer2<PO, VO> extends AbstractConvert<PO, VO> {
-	private Class<VO> voCls;
+	protected Class<VO> voCls;
 
 	public DefaultReformer2(Class<VO> cls) {
 		this.voCls = cls;
