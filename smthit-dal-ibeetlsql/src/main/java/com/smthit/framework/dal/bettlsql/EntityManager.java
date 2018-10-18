@@ -113,7 +113,7 @@ public interface EntityManager<T extends ActiveRecord> {
 				
 		long start = ($().isOffsetStartZero() ? 0 : 1) + (pageQuery.getPageNumber() - 1) * pageQuery.getPageSize();
 		long size = pageQuery.getPageSize();
-		List<T> list = $().template(entityCls(), pageQuery.getParas(), start, size);
+		List<T> list = $().template(entityCls(), pageQuery.getParas(), start, size, pageParam.getOrderBy());
 		
 		pageQuery.setList(list);
 
@@ -125,7 +125,7 @@ public interface EntityManager<T extends ActiveRecord> {
 		long start = ($().isOffsetStartZero() ? 0 : 1) + (qc.getPageNumber() - 1) * qc.getPageSize();
 		long size = qc.getPageSize();
 		
-		List<T> result = $().template(entityCls(), qc.getParams(), start, size);
+		List<T> result = $().template(entityCls(), qc.getParams(), start, size, qc.getOrderBy());
 		 
 		return reformer.toVOs(result);
 	}
@@ -135,6 +135,7 @@ public interface EntityManager<T extends ActiveRecord> {
 		PageQuery<T> pageQuery = new PageQuery<T>(pageParam.getPageNumber(), 
 				pageParam.getPageSize(), 
 				pageParam.getParams());
+		pageQuery.setOrderBy(pageParam.getOrderBy());
 		
 		$().pageQuery(sqlId, entityCls(), pageQuery);
 		
