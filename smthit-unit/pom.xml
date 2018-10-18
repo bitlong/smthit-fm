@@ -46,5 +46,10 @@
 			<version>3.4.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.smthit</groupId>
+			<artifactId>smthit-lang</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

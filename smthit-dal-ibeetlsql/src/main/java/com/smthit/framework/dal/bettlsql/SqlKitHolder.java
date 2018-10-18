@@ -46,6 +46,7 @@ public class SqlKitHolder implements ApplicationContextAware {
 				
 				SqlKit.$(sqlManager);
 			} catch (Exception e) {
+				log.error(e.getMessage(), e);
 				throw new ApplicationContextException("Can't not find Default SQLManager of BeetlSQL");
 			}
 		} else {
