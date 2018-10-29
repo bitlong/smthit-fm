@@ -51,6 +51,7 @@
 		<module>smthit-all</module>
 		<module>smthit-dal-ibeetlsql</module>
 		<module>smthit-unit</module>
+		<module>smthit-thymeleaf-ext</module>
 	</modules>
 	<distributionManagement>
 		<snapshotRepository>
