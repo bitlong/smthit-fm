@@ -3,7 +3,7 @@
  */
 package com.smthit.lang.data;
 
-import org.apache.commons.lang3.StringUtils;
+import java.io.Serializable;
 
 import lombok.Data;
 
@@ -13,7 +13,9 @@ import lombok.Data;
  */
 @Data
 @lombok.experimental.Accessors(chain = true)
-public class ResponseBean {
+public class ResponseBean implements Serializable {
+	private static final long serialVersionUID = -5883989358916182252L;
+
 	public static final int OK = 0;
 	public static final int ERROR = 500;
 	

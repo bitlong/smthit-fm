@@ -57,19 +57,19 @@
 		<snapshotRepository>
 			<id>maven-bell-snapshot</id>
 			<name>maven-bell-snapshot</name>
-			<url>http://iss.makcoo.com:8081/repository/bell-snapshot/</url>
+			<url>http://maven.legotown.cn:8081/repository/bell-snapshot/</url>
 			<uniqueVersion>true</uniqueVersion>
 		</snapshotRepository>
 		<repository>
 			<id>maven-bell-release</id>
 			<name>maven-bell-release</name>
-			<url>http://iss.makcoo.com:8081/repository/bell/</url>
+			<url>http://maven.legotown.cn:8081/repository/bell/</url>
 		</repository>
 	</distributionManagement>
 	<repositories>
 		<repository>
 			<id>maven-bell-snapshot</id>
-			<url>http://iss.makcoo.com:8081/repository/bell-snapshot/</url>
+			<url>http://maven.legotown.cn:8081/repository/bell-snapshot/</url>
 		</repository>
 		<repository>
 			<id>maven-repo1</id>

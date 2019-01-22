@@ -50,14 +50,11 @@ public class HmacSHA1CredentialsMatcher implements CredentialsMatcher {
 			
 			HmacSHA1Hash hash = new HmacSHA1Hash(token, salt, iterations);
 			
-			return true;
-			/*
 			if(hash.toHex().equals(oldToken)) {
 				return true;
 			} else {
 				return false;
-			}*/
-			
+			}
 		}
 		
 		return false;
