@@ -69,7 +69,7 @@ public class MySqlExtStyle extends MySqlStyle {
 
         String connector = " and ";
         String sql = STATEMENT_START + "if(!isEmpty(" + prefix + accept + ")){"
-                + STATEMENT_END + connector + col + " " + comp + " " + this.HOLDER_START + accept + HOLDER_END + lineSeparator + STATEMENT_START + "}" + STATEMENT_END;
+                + STATEMENT_END + connector + this.getKeyWordHandler().getCol(col) + " " + comp + " " + this.HOLDER_START + accept + HOLDER_END + lineSeparator + STATEMENT_START + "}" + STATEMENT_END;
 
         //如果没有模糊查询条件，添加精准查询
         sql += STATEMENT_START + "if(!isEmpty(" + prefix + fieldName + ") && isEmpty(" + prefix + accept + ")){"
