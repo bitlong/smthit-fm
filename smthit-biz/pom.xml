@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.smthit</groupId>
     <artifactId>smthit-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <artifactId>smthit-biz</artifactId>
 </project>
