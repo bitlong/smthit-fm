@@ -14,11 +14,11 @@ import org.thymeleaf.standard.StandardDialect;
  * @author Bean
  *
  */
-public class SmthitDialect extends AbstractProcessorDialect {
+public class SmthitDialect2 extends AbstractProcessorDialect {
     private static final String NAME = "smthit";  
-    private static final String PREFIX = "sm";  
+    private static final String PREFIX = "sm2";  
 
-    public SmthitDialect() {
+    public SmthitDialect2() {
         super(NAME, PREFIX, StandardDialect.PROCESSOR_PRECEDENCE);  
     }
     

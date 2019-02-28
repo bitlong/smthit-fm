@@ -179,6 +179,15 @@ public class BeanUtil {
 			Object obj = params.get(fld.getName());
 			if (obj != null) {
 				BeanUtil.setAttrributeValue(updateObj, fld.getName(), obj);
+			} 
+			
+			if(obj == null) {
+				//TODO underscore
+				String fieldName = StringUtils.separateCamelCase(fld.getName(), "_");
+				obj = params.get(fieldName);
+				if(obj != null) {
+					BeanUtil.setAttrributeValue(updateObj, fld.getName(), obj);
+				}
 			}
 		}
 		return updateObj;
@@ -199,6 +208,14 @@ public class BeanUtil {
 			Object obj = params.get(fld.getName());
 			if (obj != null && !mapExcludes.contains(fld.getName())) {
 				BeanUtil.setAttrributeValue(updateObj, fld.getName(), obj);
+			}
+			
+			if(obj == null) {
+				//TODO underscore
+				obj = params.get(StringUtils.separateCamelCase(fld.getName(), "_"));
+				if(obj != null) {
+					BeanUtil.setAttrributeValue(updateObj, fld.getName(), obj);
+				}
 			}
 		}
 		return updateObj;

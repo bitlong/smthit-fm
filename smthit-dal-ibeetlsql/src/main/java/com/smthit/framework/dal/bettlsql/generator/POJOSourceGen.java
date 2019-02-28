@@ -96,7 +96,7 @@ public class POJOSourceGen {
 	 * 
 	 */
 	public void gen(boolean overwrite) throws Exception {
-
+		/**
 		GenConfig.initTemplate(pojoTemplate);
 
 		final TableDesc tableDesc = mm.getTable(table);
@@ -187,7 +187,7 @@ public class POJOSourceGen {
 		for (CodeGen codeGen : config.codeGens) {
 			codeGen.genCode(pkg, className, tableDesc, config, config.isDisplay());
 		}
-
+		*/
 	}
 
 	public static void saveSourceFile(String srcPath, String pkg, String className, String content, boolean overwrite) throws IOException {

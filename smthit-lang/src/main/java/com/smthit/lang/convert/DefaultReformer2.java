@@ -25,6 +25,7 @@ public class DefaultReformer2<PO, VO> extends AbstractConvert<PO, VO> {
 		try {
 			VO vo = (VO)voCls.newInstance();
 			BeanUtil.copyPropertiesFromBean2Bean(po, vo);
+			
 			return vo;
 		} catch (Exception exp) {
 			log.error("对象转换失败.", exp);
