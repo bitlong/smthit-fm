@@ -1,4 +1,4 @@
-package com.smthit.lang.utils;
+package com.smthit.lang2.utils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,18 +12,18 @@ import org.apache.commons.lang.StringUtils;
  * @author Bean
  *
  */
-public class RegexUtils {
+public class RegexUtil {
 	public static void main(String[] args) {
 		// System.out.println("过滤中英文特殊字符: "+RegexUtil.stringFilter("中国~~!#$%%."));
 		// System.out.println("是否包含中英文特殊字符: "+RegexUtil.isContainsSpecialChar("12"));
 		// System.out.println("过滤html代码: "+RegexUtil.htmltoText("<JAVASCRIPT>12</JAVASCRIPT>DDDDD"));
 		// System.out.println("判断中文字符: "+RegexUtil.isChineseChar("中国！"));
-		//System.out.println("匹配汉字: " + RegexUtils.isChinese("中国！"));
+		// System.out.println("匹配汉字: " + RegexUtils.isChinese("中国！"));
 		// System.out.println("判断英文字符: "+RegexUtil.isEnglish("abc!"));
 		// System.out.println("判断合法字符: "+RegexUtil.isRightfulString("abc_-11AAA"));
 		// System.out.println("邮政编码验证: "+RegexUtil.isZipCode("162406"));
 		// System.out.println("身份证号码验证: "+RegexUtil.isIdCardNo("35052419880210133e"));
-		//System.out.println("手机号码验证: "+RegexUtils.isMobile("18918611111"));
+		// System.out.println("手机号码验证: "+RegexUtil.isMobile("18918611111"));
 		// System.out.println("电话号码验证: "+RegexUtil.isPhone("8889333"));
 		// System.out.println("电话号码验证: "+RegexUtil.isNumeric("888.9333"));
 		// System.out.println("匹配密码: "+RegexUtil.isPwd("d888d_ddddd"));

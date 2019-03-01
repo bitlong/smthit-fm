@@ -34,8 +34,8 @@ import com.smthit.framework.api.protocol.Request;
 import com.smthit.framework.api.protocol.RequestHeader;
 import com.smthit.framework.api.protocol.Response;
 import com.smthit.framework.api.protocol.meta.ProtocolDescriptor;
-import com.smthit.framework.api.utils.CharsetUtils;
-import com.smthit.framework.api.utils.EncryptUtils;
+import com.smthit.framework.api.utils.CharsetUtil;
+import com.smthit.framework.api.utils.EncryptUtil;
 
 /**
  * @author Bean
@@ -170,17 +170,17 @@ public class ApiServlet extends HttpServlet {
 	        		sid = "GUEST";
 	        	}
 	        	
-	        	String hex = EncryptUtils.byte2hex(os.toByteArray());
+	        	String hex = EncryptUtil.byte2hex(os.toByteArray());
 	        	logger.info("request:" + hex);
 	        	
-	        	input = EncryptUtils.decryptAES(os.toByteArray(), EncryptUtils.MD5(EncryptUtils.MD5(sid) + SERVER_KEY));
+	        	input = EncryptUtil.decryptAES(os.toByteArray(), EncryptUtil.MD5(EncryptUtil.MD5(sid) + SERVER_KEY));
 	        	
 	        } else {
 	        	input = os.toByteArray();
 	        }
 	        
 	        if(input != null){
-	        	 String requestStr = new String(input, CharsetUtils.DEFAULT_CHARSET);
+	        	 String requestStr = new String(input, CharsetUtil.DEFAULT_CHARSET);
 
 	 	        logger.debug("Request:" + requestStr);
 	 	        
@@ -210,7 +210,7 @@ public class ApiServlet extends HttpServlet {
 			wokeRequest.getHeader().setShadow(shadow);
 			
 			if(StringUtils.isEmpty(req.getCharacterEncoding())) {
-				wokeRequest.getHeader().setCharsetEncoding(CharsetUtils.DEFAULT_CHARSET);
+				wokeRequest.getHeader().setCharsetEncoding(CharsetUtil.DEFAULT_CHARSET);
 			} else {
 				wokeRequest.getHeader().setCharsetEncoding(req.getCharacterEncoding());
 			}
@@ -230,7 +230,7 @@ public class ApiServlet extends HttpServlet {
 		
 		try {
 			String content = gson.toJson(resposne);
-			httpServletRepsonse.getOutputStream().write(content.getBytes(CharsetUtils.DEFAULT_CHARSET));
+			httpServletRepsonse.getOutputStream().write(content.getBytes(CharsetUtil.DEFAULT_CHARSET));
 			httpServletRepsonse.getOutputStream().flush();
 			logger.debug("Response:" + content);
 		} catch (Exception e) {

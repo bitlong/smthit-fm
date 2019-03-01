@@ -27,7 +27,7 @@ import com.smthit.framework.api.exception.ApiException;
 import com.smthit.framework.api.protocol.meta.FieldMeta;
 import com.smthit.framework.api.protocol.meta.HandlerMeta;
 import com.smthit.framework.api.protocol.meta.ProtocolDescriptor;
-import com.smthit.framework.api.utils.ReflectMethodUtils;
+import com.smthit.framework.api.utils.ReflectMethodUtil;
 
 /**
  * @author Bean
@@ -99,7 +99,7 @@ public abstract class AbstractHandler {
 			descriptor.setRequestClass(requestClass);
 			descriptor.setResponseClass(responseClass);
 			
-			List<Field> fields = ReflectMethodUtils.getClassFields(requestClass, true);
+			List<Field> fields = ReflectMethodUtil.getClassFields(requestClass, true);
 			for(Field f : fields) {
 				//logger.info(f.getName() + "," + f.getDeclaringClass().getPackage().getName());
 				FieldMeta fieldMeta = createFieldMeta(f);
@@ -107,7 +107,7 @@ public abstract class AbstractHandler {
 				descriptor.getRequestFields().add(fieldMeta);
 			}
 			
-			fields = ReflectMethodUtils.getClassFields(responseClass, true);
+			fields = ReflectMethodUtil.getClassFields(responseClass, true);
 			for(Field f : fields) {
 				//logger.info(f.getName() + "," + f.getDeclaringClass().getPackage().getName());				
 				FieldMeta fieldMeta = createFieldMeta(f);				
@@ -132,7 +132,7 @@ public abstract class AbstractHandler {
 				String genericType = types[0].getTypeName();
 				try {
 					Class<?> genericTypeClass = Class.forName(genericType);
-					List<Field> fields = ReflectMethodUtils.getClassFields(genericTypeClass, true);
+					List<Field> fields = ReflectMethodUtil.getClassFields(genericTypeClass, true);
 					
 					for(Field f : fields) {
 						FieldMeta meta = createFieldMeta(f);
@@ -144,7 +144,7 @@ public abstract class AbstractHandler {
 				}
 			}
 		} else {
-			List<Field> fields = ReflectMethodUtils.getClassFields(subClass, true);
+			List<Field> fields = ReflectMethodUtil.getClassFields(subClass, true);
 			if(fields.size() == 0)
 				return;
 			

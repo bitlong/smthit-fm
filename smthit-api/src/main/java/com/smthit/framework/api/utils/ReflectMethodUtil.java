@@ -13,7 +13,7 @@ import com.google.gson.annotations.Since;
  * @author Bean
  * @since 1.0.0
  */
-public class ReflectMethodUtils {
+public class ReflectMethodUtil {
 	/**
 	 * 
 	 * @param cls

@@ -14,8 +14,8 @@ import sun.misc.BASE64Encoder;
 
 
 @SuppressWarnings("restriction")
-public class EncryptUtils {
-	private static Logger logger = Logger.getLogger(EncryptUtils.class);
+public class EncryptUtil {
+	private static Logger logger = Logger.getLogger(EncryptUtil.class);
 	
 	public static String SHA1(String decript) {
 		try {

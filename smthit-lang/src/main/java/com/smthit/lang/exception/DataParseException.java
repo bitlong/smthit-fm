@@ -19,7 +19,6 @@ public class DataParseException extends ServiceException {
 	 */
 	public DataParseException(String msg) {
 		super(msg);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -28,7 +27,6 @@ public class DataParseException extends ServiceException {
 	 */
 	public DataParseException(String errorCode, String msg) {
 		super(errorCode, msg);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -37,7 +35,6 @@ public class DataParseException extends ServiceException {
 	 */
 	public DataParseException(String msg, Throwable exception) {
 		super(msg, exception);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -47,7 +44,6 @@ public class DataParseException extends ServiceException {
 	 */
 	public DataParseException(String errorCode, String msg, Throwable exception) {
 		super(errorCode, msg, exception);
-		// TODO Auto-generated constructor stub
 	}
 
 }

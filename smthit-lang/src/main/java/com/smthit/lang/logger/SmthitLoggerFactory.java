@@ -15,19 +15,18 @@ import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.varia.LevelRangeFilter;
 
 /**
- * @author Bean 动态按业务创建Logger，存储在不同的路径下
+ * @author Bean 
+ * 动态按业务创建Logger，存储在不同的路径下
+ * TODO 考虑是否异步方式，集成kafka记录日志，对日志进行数据统计
  */
-public class TiCaiLoggerFactory {
-	private static Logger factoryLogger = Logger.getLogger(TiCaiLoggerFactory.class);
+public class SmthitLoggerFactory {
+	private static Logger factoryLogger = Logger.getLogger(SmthitLoggerFactory.class);
 	
 	private static final Map<String, Logger> loggerMap = new HashMap<String, Logger>();
 
 	private String baseDir;
 
-	/**
-	 * 
-	 */
-	public TiCaiLoggerFactory(String baseDir) {
+	public SmthitLoggerFactory(String baseDir) {
 		this.baseDir = baseDir;
 	}
 	
@@ -59,8 +58,10 @@ public class TiCaiLoggerFactory {
 				fAppender.setThreshold(Level.INFO);
 				fAppender.setLayout(playout);
 				LevelRangeFilter filterInfo = new LevelRangeFilter();
+				
 				filterInfo.setLevelMin(Level.INFO);
 				filterInfo.setLevelMax(Level.ERROR);
+				
 				fAppender.addFilter(filterInfo);
 				logger.addAppender(fAppender);
 				
