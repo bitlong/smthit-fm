@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.smthit</groupId>
 		<artifactId>smthit-parent</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>smthit-mvc</artifactId>
 	<dependencies>
@@ -35,12 +35,12 @@
 		<dependency>
 			<groupId>com.smthit</groupId>
 			<artifactId>smthit-lang</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.smthit</groupId>
 			<artifactId>smthit-dal</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
