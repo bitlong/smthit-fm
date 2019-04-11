@@ -26,7 +26,6 @@ public interface ActiveRecord {
     		createStamp();	
         return $().insertTemplate(this, true) > 0;
     }
-
     
     default boolean update() {
     		//
