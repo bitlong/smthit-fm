@@ -27,7 +27,7 @@ public class SmthitDialect extends AbstractProcessorDialect {
 	public Set<IProcessor> getProcessors(String dialectPrefix) {
         final Set<IProcessor> processors = new HashSet<IProcessor>();
         
-        processors.add(new MenuTagProcessor2(PREFIX));
+        processors.add(new MenuTagProcessor(PREFIX));
         processors.add(new OptionTagProcessor(PREFIX));
         
 		return processors;
