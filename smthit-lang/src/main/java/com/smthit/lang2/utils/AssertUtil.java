@@ -90,7 +90,7 @@ public class AssertUtil {
 	}
 
 	public static void assertNotNull(Object obj) {
-		assertNotNull(obj);
+		assertNotNull(obj,  null);
 	}
 	
 	public static void assertEnumExist(int status, Class<? extends EnumStatus> cls, String tips) {

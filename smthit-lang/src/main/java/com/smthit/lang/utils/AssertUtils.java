@@ -11,6 +11,7 @@ import com.smthit.lang.exception.ServiceException;
  * @author Bean
  *
  */
+@Deprecated
 public class AssertUtils {
 	public static void assertNotNull(String value, String tips) {
 		if(StringUtils.isEmpty(value)) {
