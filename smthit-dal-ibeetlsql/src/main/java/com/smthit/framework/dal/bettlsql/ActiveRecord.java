@@ -28,11 +28,18 @@ public interface ActiveRecord {
     }
     
     default boolean update() {
-    		//
-    		updateStamp();
-        return $().updateTemplateById(this) > 0;
+    		return update(true);
     }
 
+    default boolean update(boolean ignoreEmptyProperty) {
+    		updateStamp();
+    		if(ignoreEmptyProperty == false) {
+    			return $().updateById(this) > 0;
+    		} else {
+    			return  $().updateTemplateById(this) > 0;
+    		}
+    }
+    
     default boolean delete() {
     		//
         return $().deleteObject(this) > 0;

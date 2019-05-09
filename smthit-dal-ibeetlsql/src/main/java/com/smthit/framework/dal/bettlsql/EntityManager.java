@@ -31,12 +31,16 @@ public interface EntityManager<T extends ActiveRecord> {
 
 	@Transactional
 	default public T update(Serializable id, Map<String, Object> params, String[] ignoreProperties) {
+		return update(id, params, ignoreProperties, true);
+	}
+
+	default public T update(Serializable id, Map<String, Object> params, String[] ignoreProperties, boolean ignoreEmptyProperty) {
 		try {
 			T entity = $().single(entityCls(), id);
 
 			if (null != entity) {
 				BeanUtil.copyPropertiesFromMap2Bean(entity, params, ignoreProperties);
-				entity.update();
+				entity.update(ignoreEmptyProperty);
 			}
 
 			return entity;
@@ -48,7 +52,12 @@ public interface EntityManager<T extends ActiveRecord> {
 	
 	@Transactional
 	default public T update(Serializable id, Map<String, Object> params) {
-		return update(id, params, new String[0]);
+		return update(id, params, new String[0], true);
+	}
+	
+	@Transactional
+	default public T update(Serializable id, Map<String, Object> params, boolean ignoreEmptyProperty) {
+		return update(id, params, new String[0], ignoreEmptyProperty);
 	}
 
 	default public T create(Map<String, Object> params, String[] ignoreProperties) {
@@ -69,12 +78,17 @@ public interface EntityManager<T extends ActiveRecord> {
 
 	@Transactional
 	default public T update(Serializable id, Object params, String[] ignoreProperties) {
+		return update(id, params, ignoreProperties, true);
+	}
+	
+	@Transactional
+	default public T update(Serializable id, Object params, String[] ignoreProperties, boolean ignoreEmptyProperty) {
 		try {
 			T entity = $().single(entityCls(), id);
 
 			if (null != entity) {
 				BeanUtils.copyProperties(params, entity, ignoreProperties);
-				entity.update();
+				entity.update(ignoreEmptyProperty);
 			}
 
 			return entity;
@@ -85,8 +99,14 @@ public interface EntityManager<T extends ActiveRecord> {
 
 	@Transactional
 	default public T update(Serializable id, Object params) {
-		return update(id, params, new String[] {"id"});
+		return update(id, params, new String[] {"id"}, true);
 	}
+
+	@Transactional
+	default public T update(Serializable id, Object params, boolean ignoreEmptyProperty) {
+		return update(id, params, new String[] {"id"}, ignoreEmptyProperty);
+	}
+
 	
 	@Transactional
 	default public T create(Object params, String[] ignoreProperties) {

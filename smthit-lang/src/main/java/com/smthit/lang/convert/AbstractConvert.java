@@ -4,6 +4,7 @@
 package com.smthit.lang.convert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,6 +21,10 @@ public abstract class AbstractConvert<PO, VO> implements IConvert<PO, VO> {
 	 */
 	@Override
 	public List<VO> toVOs(List<PO> pos) {
+		if(pos == null || pos.size() == 0) {
+			return Collections.emptyList();
+		}
+		
 		List<VO> result = new ArrayList<VO>();
 		for(PO p : pos) {
 			result.add(toVO(p));
@@ -34,6 +39,10 @@ public abstract class AbstractConvert<PO, VO> implements IConvert<PO, VO> {
 	 */
 	@Override
 	public List<VO> toVOs(List<PO> pos, IConvertPostHandler<PO, VO> postHandler) {
+		if(pos == null || pos.size() == 0) {
+			return Collections.emptyList();
+		}
+		
 		List<VO> result = new ArrayList<VO>();
 		for(PO p : pos) {
 			VO v = toVO(p);
@@ -50,6 +59,10 @@ public abstract class AbstractConvert<PO, VO> implements IConvert<PO, VO> {
 	 */
 	@Override
 	public VO toVO(PO po, IConvertPostHandler<PO, VO> postHandler) {
+		if(po == null) {
+			return null;
+		}
+		
 		VO vo = toVO(po);
 		
 		if(postHandler != null)

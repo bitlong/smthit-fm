@@ -30,20 +30,22 @@ public class PageParam<C> {
 	private Class<C> cls;
 	
 	private List<OrderBy> order;
-	@Deprecated
+	
 	private String orderBy;
+	
 	public PageParam(Class<C> cls) {
 		this.cls = cls;
 		this.pageNumber = 1;
 		this.pageSize = 30;
 		this.params = new HashMap<String, Object>();
+		this.order = new ArrayList<OrderBy>();
 	}
 	
 	public PageParam(Class<C> cls, int pageNumber, int pageSize) {
 		this.cls = cls;
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
-		
+		this.params = new HashMap<String, Object>();
 		this.order = new ArrayList<OrderBy>();
 	}
 	
@@ -54,6 +56,42 @@ public class PageParam<C> {
 			return setParam(fieldName, value);
 		} else {
 			throw new PropertyNotFoundException(String.format("%s 属性不存在", fieldName));
+		}
+	}
+	
+	public <T, R> PageParam<C> setParam(Property<T, R> property, Object min, Object max) {
+		String fieldName = ClassKit.getFieldName(property);
+		
+		if(checkProperty(fieldName)) {
+			return setParam(fieldName, min);
+		} else {
+			throw new PropertyNotFoundException(String.format("%s 属性不存在", fieldName));
+		}
+	}
+	
+	public <T, R> PageParam<C> addOrder(Property<T, R> property, EnumOrder order) {
+		String fieldName = ClassKit.getFieldName(property);
+		
+		if(checkProperty(fieldName)) {
+			OrderBy orderBy = new OrderBy(fieldName, order);
+			this.order.add(orderBy);
+			return this;
+		} else {
+			throw new PropertyNotFoundException(String.format("%s 属性不存在", fieldName));
+		}
+	}
+	
+	public String getOrderBy() {
+		if(this.order != null && this.order.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			this.order.forEach((o) -> {
+				sb.append(o.getField() + " " + o.getOrder().getValue()).append(",");
+			});
+			
+			sb.deleteCharAt(sb.length() - 1);
+			return sb.toString();
+		} else {
+			return this.orderBy;
 		}
 	}
 	

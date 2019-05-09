@@ -14,8 +14,8 @@ public class OrderBy {
 	private String field;
 	private EnumOrder order;
 	
-	public OrderBy(String field, EnumOrder order) {
-		this.field = field;
+	public OrderBy(String fieldName, EnumOrder order) {
+		this.field = fieldName;
 		this.order = order;
 	}
 }
