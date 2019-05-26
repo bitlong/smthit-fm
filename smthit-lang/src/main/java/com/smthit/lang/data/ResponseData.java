@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author Bean
  *
  */
 @Data
+@ToString
 @lombok.experimental.Accessors(chain = true)
 public class ResponseData {
 	public static final int SUCCESS = 200;

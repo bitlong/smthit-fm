@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smthit.lang.enums.EnumIgnoreValue;
+import com.smthit.lang2.utils.MapKit;
+
 /**
  * @author Bean
  *
@@ -220,8 +223,20 @@ public class BeanUtil {
 		}
 		return updateObj;
 	}
+	
+	public static Map<String, Object> copyPropertiesFromBean2Map(Object sourceObj, Map<String, Object> params) {
+		return copyPropertiesFromBean2Map(sourceObj, params, new String[] {}, EnumIgnoreValue.NONE);
+	}
+
+	public static Map<String, Object> copyPropertiesFromBean2Map(Object sourceObj, Map<String, Object> params, EnumIgnoreValue ignoreValue) {
+		return copyPropertiesFromBean2Map(sourceObj, params, new String[] {}, ignoreValue);
+	}
 
 	public static Map<String, Object> copyPropertiesFromBean2Map(Object sourceObj, Map<String, Object> params, String[] excludes) {
+		return copyPropertiesFromBean2Map(sourceObj, params, excludes, EnumIgnoreValue.NONE);
+	}
+	
+	public static Map<String, Object> copyPropertiesFromBean2Map(Object sourceObj, Map<String, Object> params, String[] excludes, EnumIgnoreValue ignoreValue) {
 		Field[] fields = sourceObj.getClass().getDeclaredFields();
 
 		Set<String> mapExcludes = new HashSet<String>();
@@ -241,6 +256,14 @@ public class BeanUtil {
 				params.put(fld.getName(), value);
 			}
 		}
+		
+		if(ignoreValue == EnumIgnoreValue.EMPTY) {
+			MapKit.removeEmptyValue(params);
+		} else if(ignoreValue == EnumIgnoreValue.NULL) {
+			MapKit.removeNullEntry(params);
+		} else {
+			//do nothing.
+		}
 
 		return params;
 	}
@@ -250,7 +273,8 @@ public class BeanUtil {
 
 		if (sourceList != null) {
 			for (Object source : sourceList) {
-				Map<String, Object> destMap = copyPropertiesFromBean2Map(source, null, null);
+				Map<String, Object> param = new HashMap<>(10);
+				Map<String, Object> destMap = copyPropertiesFromBean2Map(source, param, new String[] {}, EnumIgnoreValue.NONE);
 				result.add(destMap);
 			}
 		}

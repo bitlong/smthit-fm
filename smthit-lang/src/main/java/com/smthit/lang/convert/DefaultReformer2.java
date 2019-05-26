@@ -22,6 +22,10 @@ public class DefaultReformer2<PO, VO> extends AbstractConvert<PO, VO> {
 
 	@Override
 	public VO toVO(PO po) {
+		if(po == null) {
+			return null;
+		}
+		
 		try {
 			VO vo = (VO)voCls.newInstance();
 			BeanUtil.copyPropertiesFromBean2Bean(po, vo);

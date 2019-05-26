@@ -6,12 +6,15 @@ package com.smthit.lang.data;
 import java.io.Serializable;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author Bean
  *
  */
+@Deprecated
 @Data
+@ToString
 @lombok.experimental.Accessors(chain = true)
 public class ResponseBean implements Serializable {
 	private static final long serialVersionUID = -5883989358916182252L;

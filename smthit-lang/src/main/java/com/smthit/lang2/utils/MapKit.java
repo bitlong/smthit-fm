@@ -4,6 +4,7 @@
 package com.smthit.lang2.utils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -12,13 +13,47 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Bean
- *
+ * Set和Map工具类
  */
 public final class MapKit {
 
 	private MapKit() {
 	}
 
+	/**
+	 * 将一个集合转成Map，指定指定属性作为主键，value为对象本身
+	 * @param values
+	 * @param key
+	 * @return
+	 */
+	public static <V, T, R> Map<R, V> toMap(Collection<V> values, Property<T, R> key) {
+		//TODO
+		return Collections.emptyMap();
+	}
+	
+	/**
+	 * 将一个集合转成Map，指定的属性为主键，value为指定的属性
+	 * @param values
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static <V, T, R, T1, R1> Map<R, V> toMap(Collection<V> values, Property<T, R> key, Property<T1, R1> value) {
+		//TODO
+		return Collections.emptyMap();
+	}
+	
+	/**
+	 * 将一个集合的某个属性转换成集合
+	 * @param values
+	 * @param key
+	 * @return
+	 */
+	public static <V, T, R> Set<R> toSet(Collection<V> values, Property<T, R> key) {
+		//TODO
+		return Collections.emptySet();
+	}
+	
 	/**
 	 * 移除map中null key或者value空值
 	 * 

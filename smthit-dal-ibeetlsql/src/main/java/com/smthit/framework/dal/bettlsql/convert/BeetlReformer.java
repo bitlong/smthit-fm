@@ -20,6 +20,10 @@ public class BeetlReformer<PO, VO> extends DefaultReformer2<PO, VO> {
 
 	@Override
 	public VO toVO(PO po) {
+		if(po == null) {
+			return null;
+		}
+		
 		VO vo = super.toVO(po);
 		
 		if(TailBean.class.isAssignableFrom(po.getClass()) &&

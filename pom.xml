@@ -11,6 +11,7 @@
 		<module>smthit-lang</module>
 		<module>smthit-dal-ibeetlsql</module>
 		<module>smthit-thymeleaf-ext</module>
+		<module>smthit-task</module>
 	</modules>	
 	<properties>
 		<spring.version>4.2.6.RELEASE</spring.version>

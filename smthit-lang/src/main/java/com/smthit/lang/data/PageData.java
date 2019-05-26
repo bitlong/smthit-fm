@@ -4,11 +4,13 @@
 package com.smthit.lang.data;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author Bean Layui分页返回数据的默认格式
  */
 @Data
+@ToString
 @lombok.experimental.Accessors(chain = true)
 public class PageData {
 	private int code;

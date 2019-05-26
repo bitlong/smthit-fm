@@ -7,7 +7,6 @@ import static com.smthit.framework.dal.bettlsql.SqlKit.$;
 
 /**
  * @author Bean
- *
  */
 public interface ActiveRecord {
 
@@ -16,14 +15,12 @@ public interface ActiveRecord {
 	default void createStamp() {}
 	
     default boolean save() {
-    		//
     		createStamp();
         return $().insertTemplate(this) > 0;
     }
 
     default boolean saveDo() {
-    		//
-    		createStamp();	
+    		createStamp();	    		
         return $().insertTemplate(this, true) > 0;
     }
     
@@ -41,7 +38,10 @@ public interface ActiveRecord {
     }
     
     default boolean delete() {
-    		//
         return $().deleteObject(this) > 0;
     }
+    
+    default int upinsert() {
+    		return $().upsert(this);
+    }  
 }

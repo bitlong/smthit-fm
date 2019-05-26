@@ -9,7 +9,7 @@ import org.beetl.sql.core.engine.PageQuery;
 
 /**
  * @author Bean
- * TODO 目前这个类没有神什么用，将来需要加上对数据库中视图的映射，这样可以简化应用开发逻辑。但是View中的数据不是实体数据，不存在表的映射
+ * TODO 目前这个类没有什么用，将来需要加上对数据库中视图的映射，这样可以简化应用开发逻辑。但是View中的数据不是实体数据，不存在表的映射
  * 
  */
 public interface BaseViewMapper<T> {
