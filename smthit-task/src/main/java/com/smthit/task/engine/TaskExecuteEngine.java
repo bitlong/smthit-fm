@@ -3,7 +3,6 @@
  */
 package com.smthit.task.engine;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.smthit.task.SmthitTaskFactory;
 import com.smthit.task.core.biz.TaskService;
 import com.smthit.task.engine.event.TaskCancelEvent;
+import com.smthit.task.engine.event.TaskTerminalEvent;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +37,7 @@ public class TaskExecuteEngine {
 	private int poolSize = 10;
 	
 	@Getter
-	private AtomicInteger executedTaskCount;
-
-	@Getter
-	private Date startTime;
-	
+	private AtomicInteger executedTaskCount;	
 	@Autowired
 	private TaskService taskService;
 	
@@ -70,9 +66,6 @@ public class TaskExecuteEngine {
 		threadPoolExecutor.setRejectedExecutionHandler((r, executor) -> {
 			log.warn("TODO 任务被拒绝");
 		});
-		
-		startTime = new Date();
-		
 		//清理遗留的已经挂起的任务
 	}
 	
@@ -80,8 +73,19 @@ public class TaskExecuteEngine {
 	public void destory() {
 		queue.forEach(e -> {
 			Consumer c = (Consumer)e;
-			TaskCancelEvent taskEventCancel = new TaskCancelEvent(c.executor.getContext(), c.executor.getTask());						
+			TaskTerminalEvent taskEventCancel = new TaskTerminalEvent(c.executor.getContext(), c.executor.getTask());						
 			TaskEventBusFactory.getTaskEventBus().post(taskEventCancel);
+		});
+	}
+	
+	public void cancelTask(String taskNo) {
+		queue.forEach(r -> {
+			Consumer c = (Consumer)r;
+			if(taskNo.equals(c.executor.getTask().getTaskNo())) {
+				queue.remove(c);
+				TaskCancelEvent taskEventCancel = new TaskCancelEvent(c.executor.getContext(), c.executor.getTask());
+				TaskEventBusFactory.getTaskEventBus().post(taskEventCancel);
+			}
 		});
 	}
 

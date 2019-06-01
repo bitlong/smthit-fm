@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.beetl.sql.core.SQLManager;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 
 import com.smthit.task.SmthitTaskFactory;
@@ -17,7 +18,6 @@ import com.smthit.task.core.biz.TaskMetaService;
 import com.smthit.task.core.biz.TaskService;
 import com.smthit.task.core.dal.dao.TaskDao;
 import com.smthit.task.core.dal.dao.TaskDefineDao;
-import com.smthit.task.core.dal.dao.TaskHistoryDao;
 import com.smthit.task.core.dal.dao.TaskLogDao;
 
 import lombok.Getter;
@@ -37,6 +37,7 @@ public class TaskEngine {
 	@Setter
 	private ApplicationContext applicationContext;
 	@Setter
+	@Getter
 	private TaskExecuteEngine taskExecuteEngine;
 	@Getter
 	private TaskService taskService;
@@ -61,36 +62,46 @@ public class TaskEngine {
 	}	
 	
 	private void initDao() {
+		DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory)applicationContext.getAutowireCapableBeanFactory();
+
 		//注册相关的Dao, 将来可以用目录扫描自动装载的方式
 		TaskDao taskDao = sqlManager.getMapper(TaskDao.class);
 		TaskDefineDao taskDefineDao = sqlManager.getMapper(TaskDefineDao.class);
-		TaskHistoryDao taskHistoryDao = sqlManager.getMapper(TaskHistoryDao.class);
 		TaskLogDao taskLogDao = sqlManager.getMapper(TaskLogDao.class);
 		
-		applicationContext.getAutowireCapableBeanFactory().applyBeanPostProcessorsAfterInitialization(taskDao, TaskDao.class.getName());
-		applicationContext.getAutowireCapableBeanFactory().applyBeanPostProcessorsAfterInitialization(taskDefineDao, TaskDefineDao.class.getName());
-		applicationContext.getAutowireCapableBeanFactory().applyBeanPostProcessorsAfterInitialization(taskHistoryDao, TaskHistoryDao.class.getName());
-		applicationContext.getAutowireCapableBeanFactory().applyBeanPostProcessorsAfterInitialization(taskLogDao, TaskLogDao.class.getName());
+		beanFactory.applyBeanPostProcessorsAfterInitialization(taskDao, TaskDao.class.getName());
+		beanFactory.applyBeanPostProcessorsAfterInitialization(taskDefineDao, TaskDefineDao.class.getName());
+		beanFactory.applyBeanPostProcessorsAfterInitialization(taskLogDao, TaskLogDao.class.getName());
 		
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskDao);
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskDefineDao);
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskHistoryDao);
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskLogDao);
+		beanFactory.registerSingleton(TaskDao.class.getName(), taskDao);
+		beanFactory.registerSingleton(TaskDefineDao.class.getName(), taskDefineDao);
+		beanFactory.registerSingleton(TaskLogDao.class.getName(), taskLogDao);
 	}	
 	
 	private void initService() {
+		DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory)applicationContext.getAutowireCapableBeanFactory();
+
 		//注册Service
 		taskService = new TaskService();
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskService);
-
+		beanFactory.autowireBean(taskService);
+		beanFactory.applyBeanPostProcessorsBeforeInitialization(taskService, TaskService.class.getName());
+		beanFactory.registerSingleton(TaskService.class.getName(), taskService);
+		
 		taskLogService = new TaskLogService();
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskLogService);
-		
-		taskHistoryServcie = new TaskHistoryService();
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskHistoryServcie);
-		
+		beanFactory.autowireBean(taskLogService);
+		beanFactory.applyBeanPostProcessorsBeforeInitialization(taskLogService, TaskLogService.class.getName());
+		beanFactory.registerSingleton(TaskLogService.class.getName(), taskLogService);
+
 		taskMetaService = new TaskMetaService();
-		applicationContext.getAutowireCapableBeanFactory().autowireBean(taskMetaService);
+		beanFactory.autowireBean(taskMetaService);
+		beanFactory.applyBeanPostProcessorsBeforeInitialization(taskMetaService, TaskMetaService.class.getName());
+		beanFactory.registerSingleton(TaskMetaService.class.getName(), taskMetaService);
+
+		taskExecuteEngine = new TaskExecuteEngine();
+		beanFactory.autowireBean(taskExecuteEngine);
+		beanFactory.applyBeanPostProcessorsBeforeInitialization(taskExecuteEngine, TaskExecuteEngine.class.getName());
+		beanFactory.registerSingleton(TaskExecuteEngine.class.getName(), taskExecuteEngine);
+
 	}
 	
 	/**
@@ -130,13 +141,13 @@ public class TaskEngine {
 			return Collections.emptyList();
 		}
 		
-		List<TaskExecutor> result = new ArrayList<>();
+		List<AbstractTaskExecutor> result = new ArrayList<>();
 		
 		taskExecutorDefines.forEach(d -> {
-			result.add(d.createTaskExecutor());
+			result.add((AbstractTaskExecutor)d.createTaskExecutor());
 		});
 		
 		
-		return null;
+		return result;
 	}
 }

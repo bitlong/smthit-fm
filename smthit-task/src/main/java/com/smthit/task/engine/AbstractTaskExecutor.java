@@ -3,10 +3,11 @@
  */
 package com.smthit.task.engine;
 
-import com.smthit.task.engine.event.TaskEvent;
+import com.smthit.task.engine.event.TaskExecuting;
+import com.smthit.task.engine.event.TaskOverEvent;
+import com.smthit.task.engine.event.TaskStartEvent;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,25 +16,19 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public abstract class AbstractTaskExecutor implements TaskExecutor {
-	@Getter
 	private TaskContext context;
-	
-	@Getter
 	private Task task;
-	
-	@Getter
 	private int totalStep;
-
 	private int currentStep;
-	
-	public AbstractTaskExecutor(TaskContext context, Task task) {
-		this.context = context;
-		this.task = task;
-	} 
+
+	public AbstractTaskExecutor() {}
 	
 	@Override
 	public boolean before() {
 		try {
+			TaskStartEvent taskEvent = new TaskStartEvent(context, task);
+			TaskEventBusFactory.getTaskEventBus().post(taskEvent);
+			
 			return doBefore(context);
 		} catch(Exception exp) {
 			log.error(exp.getMessage(), exp);
@@ -60,7 +55,12 @@ public abstract class AbstractTaskExecutor implements TaskExecutor {
 	@Override
 	public void after() {
 		doAfter(context);
-		//TODO处理任务的完成状态
+		TaskOverEvent taskEvent = new TaskOverEvent(context, task);
+		
+		taskEvent.setResult(context.getResult());
+		taskEvent.setExt(context.getExt());
+		
+		TaskEventBusFactory.getTaskEventBus().post(taskEvent);
 	}
 	
 	/**
@@ -70,11 +70,8 @@ public abstract class AbstractTaskExecutor implements TaskExecutor {
 	protected void notifyProcess(Integer currentStep) {
 		this.currentStep = currentStep;
 
-		TaskEvent taskEvent = new TaskEvent();
-		taskEvent.setTask(task);
-		
-		//TODO
-		
+		TaskExecuting taskEvent = new TaskExecuting(context, task);
+		taskEvent.setCurrentStep(currentStep);
 		TaskEventBusFactory.getTaskEventBus().post(taskEvent);
 	}
 	

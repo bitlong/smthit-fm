@@ -1,5 +1,6 @@
 package com.smthit.task.engine;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.smthit.task.engine.enums.EnumTaskState;
@@ -28,6 +29,9 @@ public class TaskContext {
 	 * 任务执行状态
 	 */
 	private EnumTaskState taskState;
+	
+	private String result;
+	private Map<String, Object> ext = new HashMap<>();
 	
 	public TaskContext() {
 	}

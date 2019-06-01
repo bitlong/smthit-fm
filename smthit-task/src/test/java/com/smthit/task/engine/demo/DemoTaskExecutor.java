@@ -4,7 +4,6 @@
 package com.smthit.task.engine.demo;
 
 import com.smthit.task.engine.AbstractTaskExecutor;
-import com.smthit.task.engine.Task;
 import com.smthit.task.engine.TaskContext;
 import com.smthit.task.engine.TaskException;
 
@@ -15,8 +14,7 @@ import com.smthit.task.engine.TaskException;
 public class DemoTaskExecutor extends AbstractTaskExecutor {
 	public final static String TASK_KEY = "DemoTask";
 
-	public DemoTaskExecutor(TaskContext context, Task task) {
-		super(context, task);
+	public DemoTaskExecutor() {
 	}
 
 	@Override

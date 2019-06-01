@@ -12,6 +12,7 @@ public class BaseEntity {
 	
 	@UpdateIgnore
 	private Date createdAt;
-	private Date updateAt;
+	
+	private Date updatedAt;
 	
 }

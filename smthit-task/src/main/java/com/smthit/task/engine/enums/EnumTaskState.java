@@ -18,6 +18,8 @@ public enum EnumTaskState implements EnumStatus {
 	CREATED(1, "创建"),
 	EXECUTING(2, "执行中"),
 	SUSPEND(3, "挂起"),
+	TERMINAL(4, "中断"),
+	CANCEL(5, "取消"),
 	OVER(200, "结束");
 	
 	private int value;

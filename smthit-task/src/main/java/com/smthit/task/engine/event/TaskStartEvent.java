@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TaskStartEvent extends TaskEvent {
+	
 	public TaskStartEvent(TaskContext taskContext, Task task) {
 		this.task = task;
 		this.taskContext = taskContext;
