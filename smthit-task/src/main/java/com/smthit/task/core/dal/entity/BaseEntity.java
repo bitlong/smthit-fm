@@ -1,4 +1,4 @@
-package com.smthit.task.dal.entity;
+package com.smthit.task.core.dal.entity;
 
 import java.util.Date;
 

@@ -3,8 +3,8 @@
  */
 package com.smthit.task.engine.demo;
 
-import com.smthit.task.data.Task;
 import com.smthit.task.engine.AbstractTaskExecutor;
+import com.smthit.task.engine.Task;
 import com.smthit.task.engine.TaskContext;
 import com.smthit.task.engine.TaskException;
 
@@ -13,17 +13,22 @@ import com.smthit.task.engine.TaskException;
  *
  */
 public class DemoTaskExecutor extends AbstractTaskExecutor {
+	public final static String TASK_KEY = "DemoTask";
+
+	public DemoTaskExecutor(TaskContext context, Task task) {
+		super(context, task);
+	}
 
 	@Override
-	public boolean doBefore(TaskContext context, Task task) {
+	public boolean doBefore(TaskContext context) {
 		//初始化目标步数
-		setTotalProcess(10);
+		this.setTotalStep(10);
 		//初始化执行的条件
 		
 		return true;
 	}
 	@Override
-	public boolean doRun(TaskContext context, Task task) {
+	public boolean doRun(TaskContext context) {
 		int currentStep = 1;
 		
 		notifyProcess(currentStep);
@@ -45,12 +50,12 @@ public class DemoTaskExecutor extends AbstractTaskExecutor {
 	}
 
 	@Override
-	public boolean doAfter(TaskContext context, Task task) {
+	public boolean doAfter(TaskContext context) {
 		return true;
 	}
 
 	@Override
-	public boolean onError(TaskContext context, Task task, TaskException exception) {
+	public boolean onError(TaskContext context, TaskException exception) {
 		return false;
 	}
 }

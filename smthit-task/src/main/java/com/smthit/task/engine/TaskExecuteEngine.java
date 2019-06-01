@@ -3,86 +3,128 @@
  */
 package com.smthit.task.engine;
 
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.smthit.task.data.Task;
-import com.smthit.task.engine.demo.DemoTaskExecutor;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.smthit.task.SmthitTaskFactory;
+import com.smthit.task.core.biz.TaskService;
+import com.smthit.task.engine.event.TaskCancelEvent;
+
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Bean
  * 任务的执行引擎，消费者使用内置的线程池
+ * @since 1.0.4
  */
 @Slf4j
 public class TaskExecuteEngine {
 	
-	private final BlockingQueue<Task> queue;
-	/**
-	 * 消费者线程
-	 */
-	private Thread consumerThread;
+	private final BlockingQueue<Runnable> queue;
+
+	private ThreadPoolExecutor threadPoolExecutor;
+	private int poolSize = 10;
 	
-	/**
-	 * 消费者的数量
-	 */
-	private int cosumerCount = 1;
+	@Getter
+	private AtomicInteger executedTaskCount;
+
+	@Getter
+	private Date startTime;
+	
+	@Autowired
+	private TaskService taskService;
 	
 	public TaskExecuteEngine() {
-		queue = new ArrayBlockingQueue<Task>(2000);
-		consumerThread = new Thread(new Consumer(queue));
-		consumerThread.start();
+		queue = new ArrayBlockingQueue<>(2000);
+		init();
+	}
+	
+	/**
+	 * 初始化任务桶
+	 * @since 1.0.4
+	 */
+	@PostConstruct
+	public void init() {
+		executedTaskCount = new AtomicInteger(0);
+
+		//创建线程池
+		threadPoolExecutor = new ThreadPoolExecutor(this.poolSize,
+				this.poolSize,
+				60L,
+				TimeUnit.SECONDS,
+				queue,
+				new TaskThreadFactory()
+		);
+
+		threadPoolExecutor.setRejectedExecutionHandler((r, executor) -> {
+			log.warn("TODO 任务被拒绝");
+		});
+		
+		startTime = new Date();
+		
+		//清理遗留的已经挂起的任务
+	}
+	
+	@PreDestroy
+	public void destory() {
+		queue.forEach(e -> {
+			Consumer c = (Consumer)e;
+			TaskCancelEvent taskEventCancel = new TaskCancelEvent(c.executor.getContext(), c.executor.getTask());						
+			TaskEventBusFactory.getTaskEventBus().post(taskEventCancel);
+		});
 	}
 
-	public void addEventData(Task data) {
-		
+	/**
+	 * @since 1.0.4
+	 * @param data
+	 */
+	public void addTaskEvent(Task task) {
+		List<AbstractTaskExecutor> executors = SmthitTaskFactory.getSmthitTaskFactory().getAvailableTaskExecutors(task.getTaskKey());
+		if(executors.isEmpty()) {
+			throw new TaskException("没有任何可以执行的任务执行器");
+		}
+
 		//1.任务落地, 先落地;
-		
+		taskService.addTask(task);
 		
 		//2.任务入队，等待执行
-		boolean flag = queue.offer(data);
+		executors.forEach(e -> {
+			TaskContext taskContext = new TaskContext();
+			taskContext.setTask(task);
+
+			e.setContext(taskContext);
+			e.setTask(task);
+			
+			threadPoolExecutor.execute(new Consumer(e));
+
+		});
 		
-		if (flag) {
-			log.info("成功入队, size: " + queue.size() +",  数据:" + data);
-		} else {
-			log.error("失败入队, size: " + queue.size() +"remainingCapacity: " + queue.remainingCapacity() + ",  数据:" + data);
-		}
+		log.debug("成功入队, size: " + queue.size() +",  数据:" + task);
 	}
 	
 	public class Consumer implements Runnable {
-		private BlockingQueue<Task> queue;
+		private AbstractTaskExecutor executor;
 
-		public Consumer(BlockingQueue<Task> queue) {
-			this.queue = queue;
+		public Consumer(AbstractTaskExecutor executor) {
+			this.executor = executor;
 		}
 
 		@Override
 		public void run() {
-			try {
-				while (true) {
-					log.info("Consume Execute, Size: " + queue.size() + "remainingCapacity:" + queue.remainingCapacity());
-					consume(queue.take());
-				} // 当队列空时，消费者阻塞等待
-			} catch (InterruptedException ex) {
-				log.error(ex.getMessage(), ex);
-			} catch (Exception exp) {
-				log.error("钉钉事件消费线程,异常:" + exp);
-			}
-		}
-
-		private void consume(Task task) {
-			log.info("处理回调钉钉回调事件: " + task);			
-			/**
-			 * 获取到Task，创建TaskExecutor实例，生成任务上下文，让后执行;
-			 */
-			TaskContext taskContext = new TaskContext();
-			AbstractTaskExecutor taskExecutor = new DemoTaskExecutor();
-			taskExecutor.setContext(taskContext);
-			taskExecutor.setTask(task);
-			
-			taskExecutor.run(taskContext, task);
-			
+			log.debug("Consume Execute, Size: " + queue.size() + ", remainingCapacity: " + queue.remainingCapacity());
+			executedTaskCount.incrementAndGet();
+			executor.run();
 		}
 	}
 }

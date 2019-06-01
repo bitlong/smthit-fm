@@ -3,19 +3,33 @@
  */
 package com.smthit.task.engine;
 
-import java.util.Set;
-
-import com.smthit.task.data.Task;
-
 /**
  * @author Bean
- *
+ * 任务执行期
+ * @since 1.0.0
  */
 public interface TaskExecutor {
-	public Set<String> getTaskKeys();
-	public void addTaskKey(String key);
 	
-	public boolean before(TaskContext context, Task task);
-	public void run(TaskContext context, Task task);
-	public void after(TaskContext context, Task task);
+	
+	/**
+	 * 任务执行前的预处理工作
+	 * @param context
+	 * @return
+	 * @since 1.0.4
+	 */
+	boolean before();
+	
+	/**
+	 * 任务执行中的处理
+	 * @param context
+	 * @since 1.0.4
+	 */
+	void run();
+	
+	/**
+	 * 任务执行后的处理
+	 * @param context
+	 * @since 1.0.4
+	 */
+	void after();
 }

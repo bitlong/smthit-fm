@@ -1,19 +1,24 @@
 package com.smthit.task.engine;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.beetl.sql.core.SQLManager;
 import org.springframework.context.ApplicationContext;
 
 import com.smthit.task.SmthitTaskFactory;
-import com.smthit.task.biz.TaskHistoryService;
-import com.smthit.task.biz.TaskLogService;
-import com.smthit.task.biz.TaskMetaService;
-import com.smthit.task.biz.TaskService;
-import com.smthit.task.dal.dao.TaskDao;
-import com.smthit.task.dal.dao.TaskDefineDao;
-import com.smthit.task.dal.dao.TaskHistoryDao;
-import com.smthit.task.dal.dao.TaskLogDao;
-import com.smthit.task.data.Task;
-import com.smthit.task.data.TaskDefine;
+import com.smthit.task.core.biz.TaskHistoryService;
+import com.smthit.task.core.biz.TaskLogService;
+import com.smthit.task.core.biz.TaskMetaService;
+import com.smthit.task.core.biz.TaskService;
+import com.smthit.task.core.dal.dao.TaskDao;
+import com.smthit.task.core.dal.dao.TaskDefineDao;
+import com.smthit.task.core.dal.dao.TaskHistoryDao;
+import com.smthit.task.core.dal.dao.TaskLogDao;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,13 +31,13 @@ import lombok.Setter;
 public class TaskEngine {
 	@Setter
 	private SmthitTaskFactory smthitTaskFactory;
+	
 	@Setter
 	private SQLManager sqlManager;
 	@Setter
 	private ApplicationContext applicationContext;
 	@Setter
 	private TaskExecuteEngine taskExecuteEngine;
-
 	@Getter
 	private TaskService taskService;
 	@Getter
@@ -41,6 +46,9 @@ public class TaskEngine {
 	private TaskHistoryService taskHistoryServcie;
 	@Getter
 	private TaskMetaService taskMetaService;
+	
+	
+	Map<String, List<TaskExecutorDefine<?>>> taskExecutors = new HashMap<>(50);
 	
 	public TaskEngine(SQLManager sqlManager) {
 		this.sqlManager = sqlManager;
@@ -89,32 +97,46 @@ public class TaskEngine {
 	 * 注册任务, 检查任务是否在数据库中存在，不存在则注册改任务
 	 * @since 1.0.4
 	 */
-	public void registIfNotExist(TaskDefine taskDefine) {
+	public void registIfNotExist(TaskExecutorDefine<?> executor) {
+		
+		Set<String> taskKeys = executor.getTaskKeys();
+		if(taskKeys == null || taskKeys.size() == 0) {
+			return;
+		}
+		
+		taskKeys.forEach(key -> {
+			List<TaskExecutorDefine<?>> executors = taskExecutors.get(key);
+			if(executors == null) {
+				executors = new ArrayList<>();
+				taskExecutors.put(key, executors);
+			}
+			
+			if(!executors.contains(executor)) {
+				executors.add(executor);
+			}
+		});
 		
 	}
-	
+
 	/**
-	 * 申请开始一个任务
-	 * @param key
-	 * @return taskNo 唯一标识一个任务，应用层需要保留以跟踪
-	 */
-	public Task applyTask(String taskKey) {
-		return new Task();
-	}
-	
-	/**
-	 * 查询任务的执行状态
-	 * @param taskNo
-	 */
-	public void lookupTaskState(String taskNo) {
-		
-	}
-	
-	/**
-	 * 获取队列的长度
+	 * 获取可用的执行器
+	 * @param taskKey
 	 * @return
+	 * @since 1.0.4
 	 */
-	public int getTaskQueueLength() {
-		return 0;
+	public List<AbstractTaskExecutor> getAvailableTaskExecutors(String taskKey) {
+		List<TaskExecutorDefine<?>> taskExecutorDefines = taskExecutors.get(taskKey);
+		if(taskExecutorDefines == null) {
+			return Collections.emptyList();
+		}
+		
+		List<TaskExecutor> result = new ArrayList<>();
+		
+		taskExecutorDefines.forEach(d -> {
+			result.add(d.createTaskExecutor());
+		});
+		
+		
+		return null;
 	}
 }

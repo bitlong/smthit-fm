@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smthit.task.data;
+package com.smthit.task.engine;
 
 import lombok.Data;
 
@@ -11,9 +11,9 @@ import lombok.Data;
  */
 @Data
 public class Task {
-	private Long id;
-	private String name;
-	private String key;
+	private String taskKey;
+	
+	private String taskNo;
 	
 	public Task() {
 	}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smthit.task.dal.entity;
+package com.smthit.task.core.dal.entity;
 
 import org.beetl.sql.core.annotatoin.AutoID;
 import org.beetl.sql.core.annotatoin.Table;

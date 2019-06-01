@@ -1,9 +1,7 @@
 /**
  * 
  */
-package com.smthit.task.dal.entity;
-
-import java.util.Date;
+package com.smthit.task.core.dal.entity;
 
 import org.beetl.sql.core.annotatoin.AutoID;
 import org.beetl.sql.core.annotatoin.Table;
@@ -17,12 +15,10 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "sm_task_logs")
-public class TaskLogPO extends BaseEntity {
+@Table(name = "sm_task_defines")
+public class TaskDefinePO extends BaseEntity {
 	@AutoID
 	private Long id;
-	private Long taskId;
-	private Integer currentStep;
-	private Date executeTime;
-	private Integer taskState;
+	private String name;
+	private String key;
 }

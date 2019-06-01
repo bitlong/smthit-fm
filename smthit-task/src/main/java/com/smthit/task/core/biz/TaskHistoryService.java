@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smthit.task.biz;
+package com.smthit.task.core.biz;
 
 /**
  * @author Bean

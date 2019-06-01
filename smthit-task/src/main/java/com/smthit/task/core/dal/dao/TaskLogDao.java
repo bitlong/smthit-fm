@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.smthit.task.dal.dao;
+package com.smthit.task.core.dal.dao;
 
 import org.beetl.sql.core.annotatoin.SqlResource;
 import org.beetl.sql.core.mapper.BaseMapper;
 
-import com.smthit.task.dal.entity.TaskLogPO;
+import com.smthit.task.core.dal.entity.TaskLogPO;
 
 /**
  * @author Bean
