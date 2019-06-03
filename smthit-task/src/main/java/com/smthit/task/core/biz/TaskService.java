@@ -9,12 +9,16 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.beetl.sql.core.engine.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.eventbus.Subscribe;
+import com.smthit.framework.dal.bettlsql.convert.BeetlTailReformer;
+import com.smthit.lang.enums.EnumLogicStatus;
 import com.smthit.lang.json.GsonUtil;
+import com.smthit.lang2.utils.AssertUtil;
 import com.smthit.task.core.dal.dao.TaskDao;
 import com.smthit.task.core.dal.entity.TaskPO;
 import com.smthit.task.engine.Task;
@@ -26,10 +30,11 @@ import com.smthit.task.engine.event.TaskOverEvent;
 import com.smthit.task.engine.event.TaskStartEvent;
 import com.smthit.task.engine.event.TaskTerminalEvent;
 import com.smthit.task.spi.api.ITaskService;
+import com.smthit.task.spi.model.TaskVO;
 
 /**
  * @author Bean 任务的业务类
- * @since 1.0.0
+ * @since 1.0.4
  */
 @Service
 @Transactional
@@ -51,6 +56,53 @@ public class TaskService implements ITaskService {
 		TaskEventBusFactory.getTaskEventBus().unregister(this);
 	}
 
+	/**
+	 * 根据任务编号获取一个任务的状态
+	 * 
+	 * @param taskNo
+	 * @return
+	 * @since 1.0.5
+	 */
+	public TaskVO getTask(String taskNo) {
+		TaskPO po = taskDao.createLambdaQuery().andEq(TaskPO::getTaskNo, taskNo).single();
+
+		if (po != null) {
+			return (new BeetlTailReformer<>(TaskVO.class)).toVO(po);
+		}
+
+		return null;
+	}
+
+	public void deleteTask(String taskNo) {
+		TaskPO po = taskDao.createLambdaQuery().andEq(TaskPO::getTaskNo, taskNo).single();
+
+		AssertUtil.assertNotNull(po, "任务不存在, 任务编号: " + taskNo);
+		po.setStatus(EnumLogicStatus.DELETED.getValue());
+		taskDao.updateById(po);
+
+	}
+
+	/**
+	 * 批量查询某个用户的任务列表
+	 * 
+	 * @param userId
+	 * @param page
+	 * @return
+	 * @since 1.0.5
+	 */
+	public PageQuery<TaskVO> pagingTask(Long userId, PageQuery<TaskVO> page) {
+		PageQuery<TaskPO> pos = taskDao.createLambdaQuery().andEq(TaskPO::getOwnerUserId, userId).desc(TaskPO::getId)
+				.page(page.getPageNumber(), page.getPageSize());
+		page.setList(new BeetlTailReformer<TaskPO, TaskVO>(TaskVO.class).toVOs(pos.getList()));
+		return page;
+	}
+
+	/**
+	 * 添加一个任务到数据库中，TaskEngine调用，外部不调用
+	 * 
+	 * @param data
+	 * @since 1.0.4
+	 */
 	public void addTask(Task data) {
 
 		TaskPO taskPO = new TaskPO();
@@ -104,10 +156,10 @@ public class TaskService implements ITaskService {
 			taskPO.setDuration(taskPO.getEndTime().getTime() - taskPO.getBeginTime().getTime());
 			taskPO.setCurrentStep(taskPO.getTotalStep());
 			taskPO.setTaskState(EnumTaskState.OVER.getValue());
-			
+
 			taskPO.setResult(taskOverEvent.getResult());
 			taskPO.setExt(GsonUtil.toJson(taskOverEvent.getExt()));
-			
+
 			taskPO.setSuccess(true);
 			taskDao.updateById(taskPO);
 		}
