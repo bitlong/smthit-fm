@@ -122,12 +122,10 @@ public class SmthitLogger {
 		
 		//创建一个展示的样式：PatternLayout，   还有其他的日志打印样式。
 		Layout<?> layout = PatternLayout.newBuilder()
-			.withConfiguration(config).withPattern("%X[{requestId}][userId] %d [%t] %p %c - %m%n").build();
+			.withConfiguration(config).withPattern("%X{requestId}-%X{userId} %d [%t] %p %c - %m%n").build();
 		//单个日志文件大小
-		TimeBasedTriggeringPolicy tbtp = TimeBasedTriggeringPolicy.newBuilder()
-				.withInterval(1)
-				.withModulate(true)
-				.build();
+		
+		TimeBasedTriggeringPolicy tbtp = TimeBasedTriggeringPolicy.createPolicy("1", "true");
 		
 		TriggeringPolicy tp = SizeBasedTriggeringPolicy.createPolicy("10M");
 		CompositeTriggeringPolicy policyComposite = CompositeTriggeringPolicy.createPolicy(tbtp, tp);
@@ -143,16 +141,7 @@ public class SmthitLogger {
 		
 		Action[] actions = new Action[]{deleteAction};
 
-		DefaultRolloverStrategy strategy = DefaultRolloverStrategy.newBuilder()
-				.withMax("7")
-				.withMin("1")
-				.withFileIndex(null)
-				.withCompressionLevelStr(null)
-				.withStopCustomActionsOnError(false)
-				.withCustomActions(actions)
-				.withConfig(config)
-				.build();
-				
+		DefaultRolloverStrategy strategy = DefaultRolloverStrategy.createStrategy("7", "1", null, null, actions, false, config);				
 		
 		String loggerPathPrefix = loggerDir + File.separator + loggerName;
 		RollingFileAppender appender = RollingFileAppender.newBuilder()
@@ -160,10 +149,10 @@ public class SmthitLogger {
 				.withFilePattern(loggerPathPrefix + ".%d{yyyy-MM-dd}.%i.log")
 				.withAppend(true)
 				.withStrategy(strategy)
-				.setName(loggerName)
+				.withName(loggerName)
 				.withPolicy(policyComposite)
-				.setLayout(layout)
-				.setConfiguration(config)
+				.withLayout(layout)
+				.withConfiguration(config)
 				.build();
 		
 		appender.start();
