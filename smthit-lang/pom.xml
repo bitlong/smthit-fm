@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>smthit-lang</artifactId>
 	<properties>
-		<log4j.version>2.7</log4j.version>
+		<log4j.version>2.15.0</log4j.version>
 		<slf4j.version>1.7.7</slf4j.version>
 	</properties>
 	<dependencies>
